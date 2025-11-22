@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Camera, Heart, Award, Users, Play } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Camera, Heart, Award, Users, Play, Star, Quote } from 'lucide-react';
 import heroWedding from '@/assets/hero-wedding.jpg';
 import heroCouple from '@/assets/hero-couple.jpg';
 import heroCeremony from '@/assets/hero-ceremony.jpg';
@@ -40,6 +41,39 @@ const Home = () => {
       icon: <Users className="h-8 w-8 text-primary" />,
       title: '1000+ Happy Couples',
       description: 'Trusted by thousands of satisfied clients',
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: 'Sarah & Michael',
+      rating: 5,
+      text: 'Gift of Memories captured our wedding day perfectly! Every moment was beautifully documented, and the team made us feel so comfortable. The photos are absolutely stunning!',
+      date: 'October 2024',
+    },
+    {
+      name: 'Priya & Rahul',
+      rating: 5,
+      text: 'We cannot thank the team enough for the incredible work they did. The attention to detail and creativity exceeded our expectations. Our wedding album is a masterpiece!',
+      date: 'September 2024',
+    },
+    {
+      name: 'Emily & James',
+      rating: 5,
+      text: 'Professional, creative, and so much fun to work with! They captured emotions we didn\'t even know existed. Every photo tells a beautiful story of our special day.',
+      date: 'August 2024',
+    },
+    {
+      name: 'Ananya & Karthik',
+      rating: 5,
+      text: 'From pre-wedding to the ceremony, every shot was perfect. The team was punctual, professional, and incredibly talented. Highly recommend to all couples!',
+      date: 'July 2024',
+    },
+    {
+      name: 'Jessica & David',
+      rating: 5,
+      text: 'Absolutely phenomenal service! They made our dream wedding photos a reality. The quality and artistry are beyond compare. Worth every penny!',
+      date: 'June 2024',
     },
   ];
 
@@ -231,6 +265,52 @@ const Home = () => {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Testimonials Carousel Section */}
+      <section className="section-padding bg-background">
+        <div className="container mx-auto">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">What Our Clients Say</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Don't just take our word for it - hear from the couples we've had the pleasure of working with
+            </p>
+          </div>
+
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full max-w-6xl mx-auto"
+          >
+            <CarouselContent>
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <Card className="h-full hover-lift border-border">
+                    <CardContent className="p-6 flex flex-col h-full">
+                      <Quote className="h-8 w-8 text-primary mb-4 opacity-50" />
+                      <div className="flex mb-3">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                        ))}
+                      </div>
+                      <p className="text-muted-foreground mb-6 flex-grow italic">
+                        "{testimonial.text}"
+                      </p>
+                      <div className="border-t border-border pt-4">
+                        <p className="font-semibold text-foreground">{testimonial.name}</p>
+                        <p className="text-sm text-muted-foreground">{testimonial.date}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-12" />
+            <CarouselNext className="hidden md:flex -right-12" />
+          </Carousel>
         </div>
       </section>
 
