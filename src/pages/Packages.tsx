@@ -1,13 +1,17 @@
+import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 
 const Packages = () => {
+  const [selectedFilter, setSelectedFilter] = useState<string>('all');
+
   const packages = [
     {
       name: 'Basic Package',
       tagline: 'Perfect for Intimate Celebrations',
+      category: 'engagement',
       features: [
         '4 hours of coverage',
         '200+ professionally edited photos',
@@ -22,6 +26,7 @@ const Packages = () => {
     {
       name: 'Standard Package',
       tagline: 'Our Most Popular Choice',
+      category: 'wedding',
       features: [
         '8 hours of coverage',
         '500+ professionally edited photos',
@@ -39,6 +44,7 @@ const Packages = () => {
     {
       name: 'Premium Package',
       tagline: 'Complete Wedding Experience',
+      category: 'wedding',
       features: [
         'Full day coverage (12+ hours)',
         '1000+ professionally edited photos',
@@ -58,20 +64,49 @@ const Packages = () => {
     },
   ];
 
+  const filteredPackages = selectedFilter === 'all' 
+    ? packages 
+    : packages.filter(pkg => pkg.category === selectedFilter);
+
   return (
     <div className="min-h-screen pt-24">
       <section className="section-padding">
         <div className="container mx-auto">
           <div className="text-center mb-16 animate-fade-in">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Packages</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
               Choose the perfect package for your special day. All packages include professional photography, 
               editing, and secure online delivery.
             </p>
+            
+            {/* Filter Options */}
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button
+                variant={selectedFilter === 'all' ? 'default' : 'outline'}
+                onClick={() => setSelectedFilter('all')}
+                className="min-w-[120px]"
+              >
+                All Packages
+              </Button>
+              <Button
+                variant={selectedFilter === 'engagement' ? 'default' : 'outline'}
+                onClick={() => setSelectedFilter('engagement')}
+                className="min-w-[120px]"
+              >
+                Engagement
+              </Button>
+              <Button
+                variant={selectedFilter === 'wedding' ? 'default' : 'outline'}
+                onClick={() => setSelectedFilter('wedding')}
+                className="min-w-[120px]"
+              >
+                Wedding
+              </Button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-            {packages.map((pkg, index) => (
+            {filteredPackages.map((pkg, index) => (
               <Card
                 key={index}
                 className={`hover-lift relative ${

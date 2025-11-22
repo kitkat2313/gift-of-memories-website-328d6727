@@ -2,16 +2,37 @@ import { Card, CardContent } from '@/components/ui/card';
 import aboutPhotographer from '@/assets/about-photographer.jpg';
 import aboutEquipment from '@/assets/about-equipment.jpg';
 import aboutAlbum from '@/assets/about-album.jpg';
+import aboutHeroBg from '@/assets/about-hero-bg.jpg';
 
 const About = () => {
   return (
     <div className="min-h-screen pt-24">
-      {/* Hero Section */}
-      <section className="section-padding bg-muted/30">
-        <div className="container mx-auto">
+      {/* Hero Section with Background */}
+      <section className="relative section-padding overflow-hidden min-h-[500px] flex items-center">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${aboutHeroBg})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-background" />
+        </div>
+        <div className="container mx-auto relative z-10">
           <div className="max-w-3xl mx-auto text-center animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">About Us</h1>
-            <p className="text-xl text-muted-foreground">
+            <h1 
+              className="text-5xl md:text-6xl font-bold mb-6 text-white"
+              style={{ 
+                textShadow: '2px 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(255,255,255,0.3)',
+                filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.5))'
+              }}
+            >
+              About Us
+            </h1>
+            <p 
+              className="text-xl text-white"
+              style={{ 
+                textShadow: '1px 1px 8px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.2)',
+                filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.4))'
+              }}
+            >
               Crafting timeless memories through the art of photography
             </p>
           </div>

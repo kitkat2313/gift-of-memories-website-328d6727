@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Camera, Heart, Award, Users } from 'lucide-react';
+import { Camera, Heart, Award, Users, Play } from 'lucide-react';
 import heroWedding from '@/assets/hero-wedding.jpg';
 import heroCouple from '@/assets/hero-couple.jpg';
 import heroCeremony from '@/assets/hero-ceremony.jpg';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState<number | null>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const heroImages = [heroWedding, heroCouple, heroCeremony];
 
   useEffect(() => {
@@ -79,7 +81,20 @@ const Home = () => {
         <div className="relative z-10 h-full flex items-center justify-center text-center px-4">
           <div className="max-w-4xl animate-fade-in">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-              The Gift of Memories
+              <span className="inline-block">
+                {["T", "h", "e", " ", "G", "i", "f", "t", " ", "o", "f", " ", "M", "e", "m", "o", "r", "i", "e", "s"].map((letter, index) => (
+                  <span
+                    key={index}
+                    className="inline-block hover:text-primary hover:scale-110 hover:-translate-y-2 transition-all duration-300 cursor-default"
+                    style={{ 
+                      textShadow: '2px 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.5)',
+                      filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.8))'
+                    }}
+                  >
+                    {letter === " " ? "\u00A0" : letter}
+                  </span>
+                ))}
+              </span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8">
               Capturing life's most precious moments with elegance and artistry
@@ -106,6 +121,92 @@ const Home = () => {
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
+        </div>
+      </section>
+
+      {/* Video Showcase Section */}
+      <section className="section-padding bg-background">
+        <div className="container mx-auto">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Work in Motion</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Experience the magic of your special moments brought to life
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Pre-Wedding Video */}
+            <div className="relative group overflow-hidden rounded-lg shadow-xl hover-lift">
+              <div className="aspect-video bg-muted relative">
+                <video
+                  ref={el => videoRefs.current[0] = el}
+                  className="w-full h-full object-cover"
+                  loop
+                  muted
+                  playsInline
+                  poster="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&h=450&fit=crop"
+                >
+                  <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
+                </video>
+                
+                {isVideoPlaying !== 0 && (
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <button
+                      onClick={() => {
+                        if (videoRefs.current[0]) {
+                          videoRefs.current[0].play();
+                          setIsVideoPlaying(0);
+                        }
+                      }}
+                      className="bg-primary text-primary-foreground rounded-full p-6 hover:scale-110 transition-transform"
+                    >
+                      <Play className="h-8 w-8" fill="currentColor" />
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+                <h3 className="text-2xl font-bold mb-2">Pre-Wedding Cinematics</h3>
+                <p className="text-white/90">Romantic moments before the big day</p>
+              </div>
+            </div>
+
+            {/* Wedding Video */}
+            <div className="relative group overflow-hidden rounded-lg shadow-xl hover-lift">
+              <div className="aspect-video bg-muted relative">
+                <video
+                  ref={el => videoRefs.current[1] = el}
+                  className="w-full h-full object-cover"
+                  loop
+                  muted
+                  playsInline
+                  poster="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=450&fit=crop"
+                >
+                  <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4" />
+                </video>
+                
+                {isVideoPlaying !== 1 && (
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <button
+                      onClick={() => {
+                        if (videoRefs.current[1]) {
+                          videoRefs.current[1].play();
+                          setIsVideoPlaying(1);
+                        }
+                      }}
+                      className="bg-primary text-primary-foreground rounded-full p-6 hover:scale-110 transition-transform"
+                    >
+                      <Play className="h-8 w-8" fill="currentColor" />
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+                <h3 className="text-2xl font-bold mb-2">Wedding Day Stories</h3>
+                <p className="text-white/90">Capturing every beautiful moment</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
